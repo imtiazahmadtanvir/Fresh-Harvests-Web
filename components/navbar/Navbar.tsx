@@ -141,13 +141,13 @@ const Navbar = () => {
                 <div className="pt-4 border-t border-gray-200">
                   <h3 className="text-lg font-semibold mb-4">Favorites</h3>
                   <Link
-                    href="/favorites"
+                    href="/"
                     className="flex items-center gap-2 mb-4 hover:text-green-600 transition-colors"
                   >
                     <Heart className="w-5 h-5" />
                     <span className="text-base font-medium">My Favorites</span>
                   </Link>
-                  <Link href="/cart" className="flex items-center gap-2 mb-6 hover:text-green-600 transition-colors">
+                  <Link href="/" className="flex items-center gap-2 mb-6 hover:text-green-600 transition-colors">
                     <div className="relative">
                       <ShoppingCart className="w-5 h-5" />
                       <div className="absolute -top-2 -right-2 w-5 h-5 bg-orange-500 text-white rounded-full text-xs flex justify-center items-center">
@@ -178,17 +178,17 @@ const Navbar = () => {
               <div className="flex items-center gap-4">
                 <div className="flex items-center gap-4">
                   {/* Favorites */}
-                  <Link href="/favorites" className="flex items-center gap-2 hover:text-green-600 transition-colors">
+                  <Link href="/" className="flex items-center gap-2 hover:text-green-600 transition-colors">
                     <Heart className="w-5 h-5" />
                     <span className="text-base font-semibold">Favorites</span>
                   </Link>
 
                   {/* Shopping Cart */}
-                  <Link href="/cart" className="flex items-center gap-2 hover:text-green-600 transition-colors">
+                  <Link href="/" className="flex items-center gap-2 hover:text-green-600 transition-colors">
                     <div className="relative">
                       <ShoppingCart className="w-6 h-6" />
                       <div className="absolute -top-2 -right-2 w-5 h-5 bg-orange-500 text-white rounded-full text-xs flex justify-center items-center">
-                        3
+                        0
                       </div>
                     </div>
                     <span className="text-base font-semibold">Cart</span>

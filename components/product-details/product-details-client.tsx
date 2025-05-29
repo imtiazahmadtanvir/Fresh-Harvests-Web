@@ -10,7 +10,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import LoadingSpinner from "@/components/shared/loading-spinner"
 import { Heart, ShoppingCart, Star, Plus, Minus, ArrowLeft, Truck, Shield, RefreshCw } from "lucide-react"
 import Navbar from "../navbar/Navbar"
-import { Footer } from "react-day-picker"
+import Footer from "../footer/Footer"
 
 interface Product {
   id: string
@@ -340,8 +340,9 @@ export default function ProductDetailsClient({ productId }: ProductDetailsClient
           </div>
         )}
       </div>
-
-      <Footer />
+          <footer>
+            <Footer />
+          </footer>
   
 
     </div>
