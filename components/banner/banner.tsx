@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 
 const Banner: React.FC = () => {
   return (
-    <section className="relative">
+    <section className="relative ">
       <div
         className="py-8 bg-cover bg-center bg-no-repeat min-h-screen flex items-center"
         style={{
