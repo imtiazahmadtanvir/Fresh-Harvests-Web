@@ -21,9 +21,11 @@ const Navbar = () => {
     router.push("/")
   }
 
+  // Update the openAuthModal function to close the mobile menu when opening the auth modal
   const openAuthModal = (mode: "login" | "register" = "login") => {
     setAuthMode(mode)
     setAuthModalOpen(true)
+    setIsOpen(true) // Close the mobile menu when opening auth modal
   }
 
   // Background color change on scroll
@@ -60,7 +62,7 @@ const Navbar = () => {
   return (
     <>
       <header
-        className={`sticky top-0 left-0 z-[99999] shadow-md w-full py-5 transition-all duration-300 ${
+        className={`sticky top-0 left-0 z-50 shadow-md w-full py-5 transition-all duration-300 ${
           navbar ? "bg-transparent backdrop-blur-lg text-gray" : "bg-transparent text-gray-800"
         }`}
       >
@@ -82,62 +84,81 @@ const Navbar = () => {
 
             {/* Mobile menu button */}
             <div className="flex lg:hidden">
+              {/* Update the mobile menu button to properly handle the toggle */}
               <button
                 onClick={() => setIsOpen(!isOpen)}
                 type="button"
                 className="absolute right-[2px] top-1/2 block -translate-y-1/2 rounded-lg px-3 py-[6px] ring-green-600 focus:ring-2 lg:hidden"
+                aria-label="Toggle menu"
               >
                 {!isOpen ? <X className="text-2xl" /> : <Menu className="text-2xl" />}
               </button>
             </div>
 
             {/* Mobile menu */}
+            {/* Update the mobile menu to have better structure and styling */}
             <div
               className={`${
                 isOpen ? "-right-full" : "right-0"
-              } w-2/3 h-screen p-4 fixed top-[70px] md:top-[100px] z-[999999] bg-gray-100 shadow-md flex flex-col space-y-4 transition-all duration-300 ease-in-out`}
+              } w-full md:w-2/3 h-screen p-6 fixed top-[70px] md:top-[100px] z-[60] bg-white shadow-lg flex flex-col space-y-4 transition-all duration-300 ease-in-out`}
             >
-              <div className="flex flex-col lg:hidden space-y-4">
-                <Link href="/">
-                  <Button variant={isActiveLink("/") ? "default" : "ghost"} className="w-full justify-start text-left">
-                    Home
-                  </Button>
-                </Link>
-                <Link href="/shop">
-                  <Button
-                    variant={isActiveLink("/shop") ? "default" : "ghost"}
-                    className="w-full justify-start text-left"
-                  >
-                    Shop
-                  </Button>
-                </Link>
-                <Link href="/about-us">
-                  <Button
-                    variant={isActiveLink("/about-us") ? "default" : "ghost"}
-                    className="w-full justify-start text-left"
-                  >
-                    About Us
-                  </Button>
-                </Link>
-                <Link href="/blogs">
-                  <Button
-                    variant={isActiveLink("/blogs") ? "default" : "ghost"}
-                    className="w-full justify-start text-left"
-                  >
-                    Blogs
-                  </Button>
-                </Link>
-
-                {/* Mobile favorites and sign in */}
-                <div className="bg-gray-200 rounded-md py-3 px-4">
-                  <div className="flex flex-col gap-4">
-                    <Link href="/favorites" className="text-xl font-semibold">
-                      Favorites
-                    </Link>
-                    <Button className="w-full bg-green-600 hover:bg-green-700" onClick={() => openAuthModal("login")}>
-                      Sign in
+              <div className="flex flex-col lg:hidden space-y-6">
+                <div className="space-y-4">
+                  <Link href="/">
+                    <Button
+                      variant={isActiveLink("/") ? "default" : "ghost"}
+                      className="w-full justify-start text-left font-medium text-base"
+                    >
+                      Home
                     </Button>
-                  </div>
+                  </Link>
+                  <Link href="/shop">
+                    <Button
+                      variant={isActiveLink("/shop") ? "default" : "ghost"}
+                      className="w-full justify-start text-left font-medium text-base"
+                    >
+                      Shop
+                    </Button>
+                  </Link>
+                  <Link href="/about-us">
+                    <Button
+                      variant={isActiveLink("/about-us") ? "default" : "ghost"}
+                      className="w-full justify-start text-left font-medium text-base"
+                    >
+                      About Us
+                    </Button>
+                  </Link>
+                  <Link href="/blogs">
+                    <Button
+                      variant={isActiveLink("/blogs") ? "default" : "ghost"}
+                      className="w-full justify-start text-left font-medium text-base"
+                    >
+                      Blogs
+                    </Button>
+                  </Link>
+                </div>
+
+                <div className="pt-4 border-t border-gray-200">
+                  <h3 className="text-lg font-semibold mb-4">Favorites</h3>
+                  <Link
+                    href="/favorites"
+                    className="flex items-center gap-2 mb-4 hover:text-green-600 transition-colors"
+                  >
+                    <Heart className="w-5 h-5" />
+                    <span className="text-base font-medium">My Favorites</span>
+                  </Link>
+                  <Link href="/cart" className="flex items-center gap-2 mb-6 hover:text-green-600 transition-colors">
+                    <div className="relative">
+                      <ShoppingCart className="w-5 h-5" />
+                      <div className="absolute -top-2 -right-2 w-5 h-5 bg-orange-500 text-white rounded-full text-xs flex justify-center items-center">
+                        3
+                      </div>
+                    </div>
+                    <span className="text-base font-medium">My Cart</span>
+                  </Link>
+                  <Button className="w-full bg-green-600 hover:bg-green-700" onClick={() => openAuthModal("login")}>
+                    Sign in
+                  </Button>
                 </div>
               </div>
             </div>
