@@ -1,4 +1,4 @@
-## Project Work Still Running 
+# Project Work Still Running 
 # Fresh Harvests - E-commerce Website
 
 A modern, responsive e-commerce website for fresh fruits and vegetables built with Next.js, TypeScript, and Tailwind CSS.
