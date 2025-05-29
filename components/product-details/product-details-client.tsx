@@ -340,6 +340,8 @@ export default function ProductDetailsClient({ productId }: ProductDetailsClient
           </div>
         )}
       </div>
+
+      <Footer />
   
 
     </div>

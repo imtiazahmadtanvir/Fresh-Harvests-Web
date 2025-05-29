@@ -91,7 +91,7 @@ const SocialIcon = React.memo(({ href, icon, label }: { href: string; icon: Reac
 ))
 SocialIcon.displayName = "SocialIcon"
 
-const FooterOptimized: React.FC = () => {
+const Footer: React.FC = () => {
   const socialIcons: SocialLink[] = [
     {
       name: "Twitter",
@@ -260,4 +260,4 @@ const FooterOptimized: React.FC = () => {
   )
 }
 
-export default FooterOptimized
+export default Footer
