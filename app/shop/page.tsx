@@ -83,12 +83,12 @@ export default function FreshProducts() {
   }
 
   return (
-<div>
+<div className="overflow-x-hidden">
     <nav>
                     <Navbar />
 
     </nav>
-<div className="max-w-[1200px] mx-auto p-4 mt-10">
+<div className=" max-w-[1200px] mx-auto p-4 mt-10">
 
       {/* Render category filter buttons */}
       <div className="mb-6 text-center">

@@ -12,7 +12,7 @@ const stats = [
 
 export default function AboutUsPage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="overflow-x-hidden min-h-screen bg-white">
       <Navbar />
 
             {/* Mission Section */}

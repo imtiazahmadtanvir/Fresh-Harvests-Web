@@ -99,10 +99,10 @@ export default function BlogsPage() {
   const regularPosts = filteredPosts.filter((post) => !post.featured)
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="overflow-x-hidden bg-gray-50 relatable">
       <Navbar />
 
-      <div className="container mx-auto px-6 py-8">
+      <div className="px-6 py-8">
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Fresh Harvest Blog</h1>

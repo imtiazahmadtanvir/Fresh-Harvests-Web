@@ -10,7 +10,7 @@ import SeasonalFruitBanner from "@/components/special-offer/special-food-offers"
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="overflow-x-hidden min-h-screen bg-white">
       <Header />
       <main>
         <Banner/>

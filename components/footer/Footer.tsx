@@ -25,15 +25,15 @@ const QUICK_LINKS_1: FooterLink[] = [
   { label: "Home", href: "/" },
   { label: "Shop", href: "/shop" },
   { label: "About Us", href: "/about-us" },
-  { label: "Blog", href: "/blog" },
-  { label: "Detail Blog", href: "/blog/detail" },
+  { label: "Blog", href: "/blogs" },
+  { label: "Detail Blog", href: "/blogs" },
 ]
 
 const QUICK_LINKS_2: FooterLink[] = [
-  { label: "Favorites", href: "/favorites" },
-  { label: "Cart", href: "/cart" },
-  { label: "Sign In", href: "/sign-in" },
-  { label: "Register", href: "/register" },
+  { label: "Favorites", href: "/" },
+  { label: "Cart", href: "/" },
+  { label: "Sign In", href: "/" },
+  { label: "Register", href: "/" },
 ]
 
 const CONTACT_INFO: ContactInfo = {
@@ -130,7 +130,8 @@ const Footer: React.FC = () => {
           {/* Logo and App Download Section */}
           <div className="lg:col-span-1">
             <div className="flex items-center mb-6 lg:mb-8">
-              <Logo />
+              <img src="/logo.png" alt="Logo" />
+              
             </div>
 
             {/* Download App Section - Desktop */}
@@ -148,7 +149,10 @@ const Footer: React.FC = () => {
                   title="Get it on"
                   subtitle="Google Play"
                   href="#"
-                />
+                /> 
+                
+                {/* <img src="/images/footer/googlePlay.png" alt="Googleplay" className=" w-15"/>
+                <img src="/images/footer/appStore.png" alt="Googleplay" className="h-12 w-13"/> */}
               </div>
             </div>
           </div>
@@ -213,11 +217,11 @@ const Footer: React.FC = () => {
             {/* Payment Methods */}
             <div className="mt-6">
               <p className="text-sm font-medium text-gray-800 mb-3">Accepted Payment Methods:</p>
-              <div className="flex items-center gap-3">
-                <PaymentMethod name="VISA" />
-                <PaymentMethod name="PayPal" />
-                <PaymentMethod name="Apple Pay" />
-              </div>
+                  <div className="flex  items-center gap-3">
+                    <img src="/images/footer/visa.png" alt="VISA" className=" w-14" />
+                    <img src="/images/footer/payPal.png" alt="PayPal" className="h-13 w-10 ml-5" />
+                    <img src="/images/footer/applePay.png" alt="Apple Pay" className="h-20 w-13 font-3xl mr-5" />
+                  </div>
             </div>
           </div>
         </div>
@@ -232,6 +236,7 @@ const Footer: React.FC = () => {
               subtitle="App Store"
               href="#"
             />
+            <img src="/images/footer/appleStore" alt="" />
             <AppDownloadButton
               icon={<Smartphone className="w-6 h-6" />}
               title="Get it on"
