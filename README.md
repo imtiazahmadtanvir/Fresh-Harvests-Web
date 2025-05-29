@@ -1,3 +1,4 @@
+## Project Work Still Running 
 # Fresh Harvests - E-commerce Website
 
 A modern, responsive e-commerce website for fresh fruits and vegetables built with Next.js, TypeScript, and Tailwind CSS.
@@ -29,7 +30,7 @@ A modern, responsive e-commerce website for fresh fruits and vegetables built wi
 ### Prerequisites
 
 - Node.js 18+ 
-- npm or yarn
+- pnpm or yarn
 
 ### Installation
 
@@ -41,7 +42,7 @@ cd fresh-harvests
 
 2. Install dependencies:
 \`\`\`bash
-npm install
+pnpm install
 # or
 yarn install
 \`\`\`
