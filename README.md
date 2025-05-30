@@ -33,7 +33,7 @@ A modern, responsive e-commerce website for fresh fruits and vegetables built wi
 
 1. **Clone the repository**  
 ```bash
-git clone <repository-url>
+git clone <https://github.com/imtiazahmadtanvir/Fresh-Harvests-Web>
 cd fresh-harvests
 
 
