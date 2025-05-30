@@ -84,8 +84,8 @@ export default function FreshProducts() {
 
   return (
 <div className="overflow-x-hidden">
-    <nav>
-                    <Navbar />
+    <nav className="sticky">
+          <Navbar />
 
     </nav>
 <div className=" max-w-[1200px] mx-auto p-4 mt-10">
@@ -146,12 +146,11 @@ export default function FreshProducts() {
           <p className="col-span-full text-center py-8 text-gray-500">No products available</p>
         )}
       </div>
-      <div className="flex justify-center mt-10">
-           <footer>
+
+    </div>
+          <footer className="mt-10">
             <Footer></Footer>
            </footer>
-      </div>
-    </div>
 
 </div>
 

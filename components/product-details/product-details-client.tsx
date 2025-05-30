@@ -7,10 +7,11 @@ import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
-import LoadingSpinner from "@/components/shared/loading-spinner"
-import { Heart, ShoppingCart, Star, Plus, Minus, ArrowLeft, Truck, Shield, RefreshCw } from "lucide-react"
+import { Heart, ShoppingCart, Star, Plus, Minus, ArrowLeft, Truck, Shield, RefreshCw, Check } from "lucide-react"
 import Navbar from "../navbar/Navbar"
 import Footer from "../footer/Footer"
+import { useCart } from "../CartProvider/cart-context"
+
 
 interface Product {
   id: string
@@ -30,6 +31,16 @@ interface ProductDetailsClientProps {
   productId: string
 }
 
+// Loading Spinner Component
+const LoadingSpinner = () => (
+  <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+    <div className="text-center">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto mb-4"></div>
+      <p className="text-gray-600">Loading product details...</p>
+    </div>
+  </div>
+)
+
 export default function ProductDetailsClient({ productId }: ProductDetailsClientProps) {
   const [product, setProduct] = useState<Product | null>(null)
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([])
@@ -39,6 +50,10 @@ export default function ProductDetailsClient({ productId }: ProductDetailsClient
   const [quantity, setQuantity] = useState(1)
   const [selectedImageIndex, setSelectedImageIndex] = useState(0)
   const [isFavorite, setIsFavorite] = useState(false)
+  const [isAddingToCart, setIsAddingToCart] = useState(false)
+  const [justAdded, setJustAdded] = useState(false)
+
+  const { addToCart, isInCart } = useCart()
   const router = useRouter()
 
   // Mock data for demonstration
@@ -92,9 +107,47 @@ export default function ProductDetailsClient({ productId }: ProductDetailsClient
     setQuantity((prev) => Math.max(1, prev + change))
   }
 
-  const handleAddToCart = () => {
-    // Add to cart logic here
-    console.log(`Added ${quantity} of ${product?.productName} to cart`)
+  const handleAddToCart = async () => {
+    if (!product) return
+
+    setIsAddingToCart(true)
+
+    // Create product object for cart
+    const cartProduct = {
+      id: product.id,
+      name: product.productName,
+      price: product.price,
+      image: product.images[0] || "/placeholder.svg",
+      category: getCategoryName(product.categoryId),
+      inStock: mockInStock,
+    }
+
+    // Add to cart with selected quantity
+    addToCart(cartProduct, quantity)
+
+    // Show success state
+    setJustAdded(true)
+
+    // Simulate API call delay
+    await new Promise((resolve) => setTimeout(resolve, 800))
+
+    setIsAddingToCart(false)
+
+    // Reset success state after 3 seconds
+    setTimeout(() => setJustAdded(false), 3000)
+  }
+
+  const handleAddRelatedToCart = async (relatedProduct: Product) => {
+    const cartProduct = {
+      id: relatedProduct.id,
+      name: relatedProduct.productName,
+      price: relatedProduct.price,
+      image: relatedProduct.images[0] || "/placeholder.svg",
+      category: getCategoryName(relatedProduct.categoryId),
+      inStock: true,
+    }
+
+    addToCart(cartProduct, 1)
   }
 
   const toggleFavorite = () => {
@@ -111,26 +164,40 @@ export default function ProductDetailsClient({ productId }: ProductDetailsClient
 
   if (error || !product) {
     return (
-      <div className="container mx-auto px-6 py-20 text-center">
-        <h1 className="text-2xl font-bold text-gray-800 mb-4">Product Not Found</h1>
-        <p className="text-gray-600 mb-8">{error || "The product you're looking for doesn't exist."}</p>
-        <Button onClick={() => router.back()} variant="outline">
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Go Back
-        </Button>
+      <div className="min-h-screen bg-gray-50">
+        <Navbar />
+        <div className="container mx-auto px-6 py-20 text-center">
+          <h1 className="text-2xl font-bold text-gray-800 mb-4">Product Not Found</h1>
+          <p className="text-gray-600 mb-8">{error || "The product you're looking for doesn't exist."}</p>
+          <Button onClick={() => router.back()} variant="outline">
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Go Back
+          </Button>
+        </div>
+        <Footer />
       </div>
     )
   }
 
+  const inCartAlready = isInCart(product.id)
+
   return (
     <div className="min-h-screen bg-gray-50">
-       
-    <div>
-        <Navbar />
-    </div>
-      
-      <div className="container mx-auto px-6 py-8">
+      <Navbar />
 
+      <div className="container mx-auto px-6 py-8">
+        {/* Breadcrumb */}
+        <div className="flex items-center gap-2 text-sm text-gray-600 mb-6">
+          <Link href="/" className="hover:text-green-600">
+            Home
+          </Link>
+          <span>/</span>
+          <Link href="/shop" className="hover:text-green-600">
+            Shop
+          </Link>
+          <span>/</span>
+          <span className="text-gray-900">{product.productName}</span>
+        </div>
 
         {/* Product Details */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
@@ -149,6 +216,11 @@ export default function ProductDetailsClient({ productId }: ProductDetailsClient
                   <Badge variant="destructive" className="text-lg px-4 py-2">
                     Out of Stock
                   </Badge>
+                </div>
+              )}
+              {inCartAlready && (
+                <div className="absolute top-4 left-4">
+                  <Badge className="bg-orange-500 text-white">In Cart</Badge>
                 </div>
               )}
             </div>
@@ -204,7 +276,7 @@ export default function ProductDetailsClient({ productId }: ProductDetailsClient
 
               {/* Price */}
               <div className="flex items-center space-x-4 mb-6">
-                <span className="text-3xl font-bold text-green-600">${product.price}</span>
+                <span className="text-3xl font-bold text-green-600">${product.price.toFixed(2)}</span>
                 <span className="text-lg text-gray-500 line-through">${(product.price * 1.2).toFixed(2)}</span>
                 <Badge className="bg-red-500">20% OFF</Badge>
               </div>
@@ -230,13 +302,19 @@ export default function ProductDetailsClient({ productId }: ProductDetailsClient
                     variant="ghost"
                     size="sm"
                     onClick={() => handleQuantityChange(-1)}
-                    disabled={quantity <= 1}
+                    disabled={quantity <= 1 || isAddingToCart}
                     className="px-3"
                   >
                     <Minus className="w-4 h-4" />
                   </Button>
                   <span className="px-4 py-2 font-medium min-w-[3rem] text-center">{quantity}</span>
-                  <Button variant="ghost" size="sm" onClick={() => handleQuantityChange(1)} className="px-3">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => handleQuantityChange(1)}
+                    disabled={isAddingToCart}
+                    className="px-3"
+                  >
                     <Plus className="w-4 h-4" />
                   </Button>
                 </div>
@@ -249,19 +327,52 @@ export default function ProductDetailsClient({ productId }: ProductDetailsClient
                   variant="outline"
                   onClick={toggleFavorite}
                   className={`flex-1 ${isFavorite ? "text-red-500 border-red-500" : ""}`}
+                  disabled={isAddingToCart}
                 >
                   <Heart className={`w-4 h-4 mr-2 ${isFavorite ? "fill-current" : ""}`} />
-                  Save as favorite
+                  {isFavorite ? "Saved" : "Save as favorite"}
                 </Button>
                 <Button
                   onClick={handleAddToCart}
-                  disabled={!mockInStock}
-                  className="flex-1 bg-orange-500 hover:bg-orange-600"
+                  disabled={!mockInStock || isAddingToCart}
+                  className={`flex-1 transition-all duration-300 ${
+                    justAdded ? "bg-green-600 hover:bg-green-700" : "bg-orange-500 hover:bg-orange-600"
+                  }`}
                 >
-                  <ShoppingCart className="w-4 h-4 mr-2" />
-                  Add to cart
+                  {isAddingToCart ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                      Adding...
+                    </>
+                  ) : justAdded ? (
+                    <>
+                      <Check className="w-4 h-4 mr-2" />
+                      Added to Cart!
+                    </>
+                  ) : (
+                    <>
+                      <ShoppingCart className="w-4 h-4 mr-2" />
+                      {inCartAlready ? "Add More" : "Add to cart"}
+                    </>
+                  )}
                 </Button>
               </div>
+
+              {/* Quick Actions */}
+              {justAdded && (
+                <div className="flex gap-2">
+                  <Link href="/cart" className="flex-1">
+                    <Button variant="outline" className="w-full">
+                      View Cart
+                    </Button>
+                  </Link>
+                  <Link href="/shop" className="flex-1">
+                    <Button variant="outline" className="w-full">
+                      Continue Shopping
+                    </Button>
+                  </Link>
+                </div>
+              )}
             </div>
 
             {/* Features */}
@@ -309,9 +420,9 @@ export default function ProductDetailsClient({ productId }: ProductDetailsClient
             <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Related Products</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
               {relatedProducts.map((relatedProduct) => (
-                <Link key={relatedProduct.id} href={`/product-details/${relatedProduct.id}`} className="group">
-                  <Card className="overflow-hidden hover:shadow-lg hover:bg-green-200 transition-shadow">
-                    <CardContent className="p-4">
+                <Card key={relatedProduct.id} className="overflow-hidden hover:shadow-lg transition-shadow group">
+                  <CardContent className="p-4">
+                    <Link href={`/product-details/${relatedProduct.id}`}>
                       <div className="relative aspect-square mb-4 bg-gray-50 rounded-lg overflow-hidden">
                         <Image
                           src={relatedProduct.images[0] || "/placeholder.svg?height=200&width=200"}
@@ -319,32 +430,34 @@ export default function ProductDetailsClient({ productId }: ProductDetailsClient
                           fill
                           className="object-contain p-4 group-hover:scale-105 transition-transform"
                         />
+                        {isInCart(relatedProduct.id) && (
+                          <div className="absolute top-2 left-2">
+                            <Badge className="bg-orange-500 text-white text-xs">In Cart</Badge>
+                          </div>
+                        )}
                       </div>
-                      <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-green-600 transition-colors">
+                      <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-green-600 transition-colors line-clamp-2">
                         {relatedProduct.productName}
                       </h3>
-                      <p className="text-green-600 font-bold">${relatedProduct.price}</p>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="w-full mt-3 hover:bg-orange-500 hover:text-white hover:border-orange-500"
-                      >
-                        Add to cart
-                      </Button>
-                    </CardContent>
-                  </Card>
-                </Link>
+                      <p className="text-green-600 font-bold mb-3">${relatedProduct.price.toFixed(2)}</p>
+                    </Link>
+                    <Button
+                      size="sm"
+                      onClick={() => handleAddRelatedToCart(relatedProduct)}
+                      className="w-full bg-orange-500 hover:bg-orange-600"
+                    >
+                      <ShoppingCart className="w-3 h-3 mr-1" />
+                      {isInCart(relatedProduct.id) ? "Add More" : "Add to cart"}
+                    </Button>
+                  </CardContent>
+                </Card>
               ))}
             </div>
-
           </div>
         )}
       </div>
-          <footer>
-            <Footer />
-          </footer>
-  
 
+      <Footer />
     </div>
   )
 }

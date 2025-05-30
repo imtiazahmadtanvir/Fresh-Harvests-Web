@@ -7,13 +7,17 @@ import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import { AuthModal } from "../auth/auth-modal"
+import { useCart } from "../CartProvider/cart-context"
+
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(true)
   const [navbar, setNavbar] = useState(false)
   const [authModalOpen, setAuthModalOpen] = useState(false)
   const [authMode, setAuthMode] = useState<"login" | "register">("login")
+  const { getTotalItems } = useCart()
   const router = useRouter()
   const pathname = usePathname()
 
@@ -59,11 +63,13 @@ const Navbar = () => {
     </Link>
   )
 
+  const totalItems = getTotalItems()
+
   return (
     <>
       <header
         className={`sticky top-0 left-0 z-50 shadow-md w-full py-5 transition-all duration-300 ${
-          navbar ? "bg-transparent backdrop-blur-lg text-gray" : "bg-transparent text-gray-800"
+          navbar ? "bg-white/95 backdrop-blur-lg text-gray" : "bg-white text-gray-800"
         }`}
       >
         <div className="container mx-auto px-6 flex items-center">
@@ -84,7 +90,6 @@ const Navbar = () => {
 
             {/* Mobile menu button */}
             <div className="flex lg:hidden">
-              {/* Update the mobile menu button to properly handle the toggle */}
               <button
                 onClick={() => setIsOpen(!isOpen)}
                 type="button"
@@ -96,7 +101,6 @@ const Navbar = () => {
             </div>
 
             {/* Mobile menu */}
-            {/* Update the mobile menu to have better structure and styling */}
             <div
               className={`${
                 isOpen ? "-right-full" : "right-0"
@@ -104,7 +108,7 @@ const Navbar = () => {
             >
               <div className="flex flex-col lg:hidden space-y-6">
                 <div className="space-y-4">
-                  <Link href="/">
+                  <Link href="/" onClick={() => setIsOpen(true)}>
                     <Button
                       variant={isActiveLink("/") ? "default" : "ghost"}
                       className="w-full justify-start text-left font-medium text-base"
@@ -112,7 +116,7 @@ const Navbar = () => {
                       Home
                     </Button>
                   </Link>
-                  <Link href="/shop">
+                  <Link href="/shop" onClick={() => setIsOpen(true)}>
                     <Button
                       variant={isActiveLink("/shop") ? "default" : "ghost"}
                       className="w-full justify-start text-left font-medium text-base"
@@ -120,7 +124,7 @@ const Navbar = () => {
                       Shop
                     </Button>
                   </Link>
-                  <Link href="/about-us">
+                  <Link href="/about-us" onClick={() => setIsOpen(true)}>
                     <Button
                       variant={isActiveLink("/about-us") ? "default" : "ghost"}
                       className="w-full justify-start text-left font-medium text-base"
@@ -128,7 +132,7 @@ const Navbar = () => {
                       About Us
                     </Button>
                   </Link>
-                  <Link href="/blogs">
+                  <Link href="/blogs" onClick={() => setIsOpen(true)}>
                     <Button
                       variant={isActiveLink("/blogs") ? "default" : "ghost"}
                       className="w-full justify-start text-left font-medium text-base"
@@ -139,22 +143,29 @@ const Navbar = () => {
                 </div>
 
                 <div className="pt-4 border-t border-gray-200">
-                  <h3 className="text-lg font-semibold mb-4">Favorites</h3>
+                  <h3 className="text-lg font-semibold mb-4">Quick Actions</h3>
                   <Link
-                    href="/"
+                    href="/favorites"
+                    onClick={() => setIsOpen(true)}
                     className="flex items-center gap-2 mb-4 hover:text-green-600 transition-colors"
                   >
                     <Heart className="w-5 h-5" />
                     <span className="text-base font-medium">My Favorites</span>
                   </Link>
-                  <Link href="/" className="flex items-center gap-2 mb-6 hover:text-green-600 transition-colors">
+                  <Link
+                    href="/cart"
+                    onClick={() => setIsOpen(true)}
+                    className="flex items-center gap-2 mb-6 hover:text-green-600 transition-colors"
+                  >
                     <div className="relative">
                       <ShoppingCart className="w-5 h-5" />
-                      <div className="absolute -top-2 -right-2 w-5 h-5 bg-orange-500 text-white rounded-full text-xs flex justify-center items-center">
-                        3
-                      </div>
+                      {totalItems > 0 && (
+                        <Badge className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 text-xs bg-orange-500 hover:bg-orange-500">
+                          {totalItems}
+                        </Badge>
+                      )}
                     </div>
-                    <span className="text-base font-medium">My Cart</span>
+                    <span className="text-base font-medium">My Cart {totalItems > 0 && `(${totalItems})`}</span>
                   </Link>
                   <Button className="w-full bg-green-600 hover:bg-green-700" onClick={() => openAuthModal("login")}>
                     Sign in
@@ -178,18 +189,20 @@ const Navbar = () => {
               <div className="flex items-center gap-4">
                 <div className="flex items-center gap-4">
                   {/* Favorites */}
-                  <Link href="/" className="flex items-center gap-2 hover:text-green-600 transition-colors">
+                  <Link href="/favorites" className="flex items-center gap-2 hover:text-green-600 transition-colors">
                     <Heart className="w-5 h-5" />
                     <span className="text-base font-semibold">Favorites</span>
                   </Link>
 
                   {/* Shopping Cart */}
-                  <Link href="/" className="flex items-center gap-2 hover:text-green-600 transition-colors">
+                  <Link href="/cart" className="flex items-center gap-2 hover:text-green-600 transition-colors">
                     <div className="relative">
                       <ShoppingCart className="w-6 h-6" />
-                      <div className="absolute -top-2 -right-2 w-5 h-5 bg-orange-500 text-white rounded-full text-xs flex justify-center items-center">
-                        0
-                      </div>
+                      {totalItems > 0 && (
+                        <Badge className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 text-xs bg-orange-500 hover:bg-orange-500">
+                          {totalItems}
+                        </Badge>
+                      )}
                     </div>
                     <span className="text-base font-semibold">Cart</span>
                   </Link>

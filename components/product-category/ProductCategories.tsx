@@ -139,9 +139,9 @@ export default function FreshProducts() {
         )}
       </div>
       <div className="flex justify-center mt-10">
-        <button className="border border-orange-500 text-orange-500 font-bold bg-transparent px-5 py-3 text-center rounded-lg hover:bg-orange-500 hover:text-white transition-colors duration-300">
+        <Link href={`/shop`} className="border border-orange-500 text-orange-500 font-bold bg-transparent px-5 py-3 text-center rounded-lg hover:bg-orange-500 hover:text-white transition-colors duration-300">
           See all Products
-        </button>
+        </Link>
       </div>
     </div>
   )
