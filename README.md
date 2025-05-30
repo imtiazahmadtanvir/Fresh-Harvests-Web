@@ -1,49 +1,51 @@
-# Project Work Still Running 
-# Fresh Harvests - E-commerce Website
+# 🥦 Fresh Harvests – E-commerce Website
 
-A modern, responsive e-commerce website for fresh fruits and vegetables built with Next.js, TypeScript, and Tailwind CSS.
+A modern, responsive e-commerce website for fresh fruits and vegetables built with **Next.js**, **TypeScript**, and **Tailwind CSS**.
 
-## Features
+## 🚀 Features
 
-- **Chatbot Assistant**: Smart chatbot assistant for user support and product suggestions
+- 🤖 **Chatbot Assistant** – Smart assistant for user support and product suggestions  
+- 🛒 **Product Catalog** – Browse a variety of fresh fruits and vegetables  
+- 📦 **Product Details** – Individual product pages with images, descriptions, and reviews  
+- 🧾 **Shopping Cart** – Add-to-cart functionality with persistent state  
+- 🔐 **User Authentication** – Login and registration modals (UI-ready)  
+- 📱 **Responsive Design** – Seamless experience across all devices  
+- 🎨 **Modern UI** – Clean, fresh design with a green and orange color scheme  
+- ⚙️ **State Management** – Powered by Redux Toolkit and RTK Query  
+- 🔌 **API Ready** – Integrated RTK Query setup for smooth backend connection
 
-- **Product Catalog**: Browse fresh fruits and vegetables
-- **Responsive Design**: Fully responsive across all devices
-- **Modern UI**: Clean, modern design with green and orange color scheme
-- **Product Catalog**: Browse fresh fruits and vegetables
-- **Product Details**: Detailed product pages with images, descriptions, and reviews
-- **User Authentication**: Login and registration modals
-- **Shopping Cart**: Add products to cart functionality
-- **Redux Integration**: State management with Redux Toolkit Query
-- **API Ready**: Prepared for API integration with RTK Query
+## 🛠 Tech Stack
 
-## Tech Stack
+- **Frontend**: Next.js 14, TypeScript, React  
+- **Styling**: Tailwind CSS, `shadcn/ui` components  
+- **State Management**: Redux Toolkit, RTK Query  
+- **Icons**: Lucide React  
+- **Image Optimization**: Next.js `Image` component
 
-- **Frontend**: Next.js 14, TypeScript, React
-- **Styling**: Tailwind CSS, shadcn/ui components
-- **State Management**: Redux Toolkit, RTK Query
-- **Icons**: Lucide React
-- **Image Optimization**: Next.js Image component
+## 📦 Getting Started
 
-## Getting Started
+### ✅ Prerequisites
 
-### Prerequisites
+- Node.js **v18+**
+- `pnpm` or `yarn`
 
-- Node.js 18+ 
-- pnpm or yarn
+### 📥 Installation
 
-### Installation
-
-1. Clone the repository:
-\`\`\`bash
+1. **Clone the repository**  
+```bash
 git clone <repository-url>
 cd fresh-harvests
-\`\`\`
 
-2. Install dependencies:
-\`\`\`bash
+
+#Install dependencies
+
 pnpm install
 # or
 yarn install
-\`\`\`
-# Fresh-Harvests-Web
+
+
+# Start the development server
+
+pnpm dev
+# or
+yarn dev

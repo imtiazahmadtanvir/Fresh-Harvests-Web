@@ -8,28 +8,18 @@ import { usePathname, useRouter } from "next/navigation"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { AuthModal } from "../auth/auth-modal"
-import { useCart } from "../CartProvider/cart-context"
-
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(true)
   const [navbar, setNavbar] = useState(false)
-  const [authModalOpen, setAuthModalOpen] = useState(false)
-  const [authMode, setAuthMode] = useState<"login" | "register">("login")
-  const { getTotalItems } = useCart()
   const router = useRouter()
   const pathname = usePathname()
 
+  // Mock cart total - replace with actual cart context
+  const totalItems = 3
+
   const handleNavigate = () => {
     router.push("/")
-  }
-
-  // Update the openAuthModal function to close the mobile menu when opening the auth modal
-  const openAuthModal = (mode: "login" | "register" = "login") => {
-    setAuthMode(mode)
-    setAuthModalOpen(true)
-    setIsOpen(true) // Close the mobile menu when opening auth modal
   }
 
   // Background color change on scroll
@@ -63,26 +53,24 @@ const Navbar = () => {
     </Link>
   )
 
-  const totalItems = getTotalItems()
-
   return (
     <>
       <header
-        className={`sticky top-0 left-0 z-50 shadow-md w-full py-5 transition-all duration-300 ${
-          navbar ? "bg-white/95 backdrop-blur-lg text-gray" : "bg-white text-gray-800"
+        className={`fixed bg-transparent top-0 left-0 right-0 z-[9999] shadow-md w-full py-5 transition-all duration-300 ${
+          navbar ? "bg-transparent backdrop-blur-lg" : "bg-transparent"
         }`}
       >
-        <div className="container mx-auto px-6 flex items-center">
-          <nav className="relative container flex justify-between items-center">
+        <div className="container mx-auto px-6">
+          <nav className="flex justify-between items-center">
             {/* Logo */}
-            <div className="w-[50%] lg:w-[20%]">
+            <div className="flex-shrink-0">
               <div onClick={handleNavigate} className="flex items-center cursor-pointer">
                 <Image
                   src="/logo.png?height=50&width=150"
                   alt="Fresh Harvest Logo"
                   width={150}
                   height={50}
-                  className="w-full h-auto"
+                  className="h-auto"
                   priority
                 />
               </div>
@@ -93,7 +81,7 @@ const Navbar = () => {
               <button
                 onClick={() => setIsOpen(!isOpen)}
                 type="button"
-                className="absolute right-[2px] top-1/2 block -translate-y-1/2 rounded-lg px-3 py-[6px] ring-green-600 focus:ring-2 lg:hidden"
+                className="rounded-lg px-3 py-2 ring-green-600 focus:ring-2"
                 aria-label="Toggle menu"
               >
                 {!isOpen ? <X className="text-2xl" /> : <Menu className="text-2xl" />}
@@ -104,7 +92,7 @@ const Navbar = () => {
             <div
               className={`${
                 isOpen ? "-right-full" : "right-0"
-              } w-full md:w-2/3 h-screen p-6 fixed top-[70px] md:top-[100px] z-[60] bg-white shadow-lg flex flex-col space-y-4 transition-all duration-300 ease-in-out`}
+              } w-full md:w-2/3 h-screen p-6 fixed top-[90px] z-[10000] bg-white shadow-lg flex flex-col space-y-4 transition-all duration-300 ease-in-out`}
             >
               <div className="flex flex-col lg:hidden space-y-6">
                 <div className="space-y-4">
@@ -167,16 +155,16 @@ const Navbar = () => {
                     </div>
                     <span className="text-base font-medium">My Cart {totalItems > 0 && `(${totalItems})`}</span>
                   </Link>
-                  <Button className="w-full bg-green-600 hover:bg-green-700" onClick={() => openAuthModal("login")}>
-                    Sign in
-                  </Button>
+                  <Link href="/sign-in" onClick={() => setIsOpen(true)}>
+                    <Button className="w-full bg-green-600 hover:bg-green-700">Sign in</Button>
+                  </Link>
                 </div>
               </div>
             </div>
 
             {/* Desktop menu */}
-            <div className="w-[50%] lg:flex lg:justify-center lg:items-center items-center hidden">
-              <div className="flex items-center space-x-2">
+            <div className="flex-1 lg:flex lg:justify-center lg:items-center items-center hidden">
+              <div className="flex items-center space-x-8">
                 <NavButton href="/">Home</NavButton>
                 <NavButton href="/shop">Shop</NavButton>
                 <NavButton href="/about-us">About Us</NavButton>
@@ -185,40 +173,39 @@ const Navbar = () => {
             </div>
 
             {/* Desktop right section */}
-            <div className="w-[30%] lg:flex lg:justify-end hidden">
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-4">
-                  {/* Favorites */}
-                  <Link href="/favorites" className="flex items-center gap-2 hover:text-green-600 transition-colors">
-                    <Heart className="w-5 h-5" />
-                    <span className="text-base font-semibold">Favorites</span>
-                  </Link>
+            <div className="lg:flex lg:justify-end hidden">
+              <div className="flex items-center gap-6">
+                {/* Favorites */}
+                <Link href="/" className="flex items-center gap-2 hover:text-green-600 transition-colors">
+                  <Heart className="w-5 h-5" />
+                  <span className="text-base font-semibold">Favorites</span>
+                </Link>
 
-                  {/* Shopping Cart */}
-                  <Link href="/cart" className="flex items-center gap-2 hover:text-green-600 transition-colors">
-                    <div className="relative">
-                      <ShoppingCart className="w-6 h-6" />
-                      {totalItems > 0 && (
-                        <Badge className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 text-xs bg-orange-500 hover:bg-orange-500">
-                          {totalItems}
-                        </Badge>
-                      )}
-                    </div>
-                    <span className="text-base font-semibold">Cart</span>
-                  </Link>
-                </div>
+                {/* Shopping Cart */}
+                <Link href="/cart" className="flex items-center gap-2 hover:text-green-600 transition-colors">
+                  <div className="relative">
+                    <ShoppingCart className="w-6 h-6" />
+                    {totalItems > 0 && (
+                      <Badge className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 text-xs bg-orange-500 hover:bg-orange-500">
+                        {totalItems}
+                      </Badge>
+                    )}
+                  </div>
+                  <span className="text-base font-semibold">Cart</span>
+                </Link>
 
                 {/* Sign In Button */}
-                <Button className="bg-green-600 hover:bg-green-700" onClick={() => openAuthModal("login")}>
-                  Sign in
-                </Button>
+                <Link href="/sign-in">
+                  <Button className="bg-green-600 hover:bg-green-700 px-6">Sign in</Button>
+                </Link>
               </div>
             </div>
           </nav>
         </div>
       </header>
 
-      <AuthModal isOpen={authModalOpen} onClose={() => setAuthModalOpen(false)} initialMode={authMode} />
+      {/* Spacer to prevent content from hiding behind fixed navbar */}
+      <div className="h-[90px]"></div>
     </>
   )
 }
