@@ -20,12 +20,8 @@ const Banner: React.FC = () => {
             {/* Banner Content */}
             <div className="w-full lg:w-[55%] space-y-6">
               {/* Welcome Badge */}
-              <Button
-                variant="secondary"
-                className="font-Rubik font-bold text-{##749B3F} bg-{#749B3F1A} hover:bg-green-200 font-medium py-2 px-4 rounded-lg"
-              >
-                Welcome to Fresh Harvest
-              </Button>
+                     <button className="text-primary text-xl text-[#749B3F] bg-primary/10 font-bold py-1 px-2 rounded w-500 font-Rubik">Welcome to Fresh Harvest</button>
+
 
               {/* Main Heading */}
               <h1 className="font=Rubik font-bold text-4xl md:text-6xl lg:text-7xl xl:text-8xl leading-tight text-gray-800 font-90px ">

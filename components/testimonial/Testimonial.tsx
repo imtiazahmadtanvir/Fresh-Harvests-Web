@@ -57,11 +57,16 @@ const Testimonial: React.FC = () => {
             height={100}
           />
         </div>
+         <div className="text-center">
+        <button className="text-primary text-xl text-[#749B3F] bg-primary/10 font-bold py-1 px-2 rounded w-500 font-Rubik">Testimonial</button>
+
         <SectionHeading
-          subheading="Testimonial"
+          subheading=""
           heading="What Our Customers Say"
           paragraph="Don't just take our word for it—here's what some of our customers have to say about their experience with Fresh Harvest"
         />
+         </div>
+       
         <div className="hidden md:block">
           <Image
             className="object-contain mt-20"

@@ -34,7 +34,7 @@ export default function FreshProducts() {
     const fetchProductsAndCategories = async () => {
       try {
         // Fetch products
-        const productResponse = await fetch("https://code-commando.com/api/v1/products")
+        const productResponse = await fetch("https://test-2-tan-chi.vercel.app/api/v1/products")
         const productData = await productResponse.json()
 
         if (productData.success) {
@@ -45,7 +45,7 @@ export default function FreshProducts() {
         }
 
         // Fetch categories
-        const categoryResponse = await fetch("https://code-commando.com/api/v1/category")
+        const categoryResponse = await fetch("https://test-2-tan-chi.vercel.app/api/v1/category")
         const categoryData = await categoryResponse.json()
 
         if (categoryData.success) {
@@ -84,7 +84,7 @@ export default function FreshProducts() {
 
   return (
 <div className="overflow-x-hidden">
-    <nav className="sticky">
+    <nav className="sticky top-0 z-50 bg-white shadow">
           <Navbar />
 
     </nav>
@@ -121,7 +121,7 @@ export default function FreshProducts() {
       {/* Render products */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {Array.isArray(filteredProducts) && filteredProducts.length > 0 ? (
-          filteredProducts.slice(0, 8).map((product) => (
+          filteredProducts.slice(0, 100).map((product) => (
             <Link  href={`/product-details/${product.id}`} key={product.id} className="group hover:bg-green-100">
               <div className="border p-4 rounded-lg shadow-md flex flex-col items-center h-full transition-all hover:shadow-lg">
                 <div className="relative w-full h-48 mb-4">

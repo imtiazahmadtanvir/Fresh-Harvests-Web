@@ -8,10 +8,13 @@ import { usePathname, useRouter } from "next/navigation"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { AuthModal } from "@/components/auth/auth-modal"
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(true)
   const [navbar, setNavbar] = useState(false)
+  const [authModalOpen, setAuthModalOpen] = useState(false)
+  const [authMode, setAuthMode] = useState<"login" | "register" | "change-password">("login")
   const router = useRouter()
   const pathname = usePathname()
 
@@ -20,6 +23,13 @@ const Navbar = () => {
 
   const handleNavigate = () => {
     router.push("/")
+  }
+
+  // Open auth modal with specified mode
+  const openAuthModal = (mode: "login" | "register" | "change-password" = "login") => {
+    setAuthMode(mode)
+    setAuthModalOpen(true)
+    setIsOpen(true) // Close mobile menu when opening auth modal
   }
 
   // Background color change on scroll
@@ -56,7 +66,7 @@ const Navbar = () => {
   return (
     <>
       <header
-        className={`fixed bg-transparent top-0 left-0 right-0 z-[9999] shadow-md w-full py-5 transition-all duration-300 ${
+        className={`fixed bg-transparent  left-0 right-0 z-[9999] shadow-md w-full py-6 transition-all duration-300 ${
           navbar ? "bg-transparent backdrop-blur-lg" : "bg-transparent"
         }`}
       >
@@ -133,7 +143,7 @@ const Navbar = () => {
                 <div className="pt-4 border-t border-gray-200">
                   <h3 className="text-lg font-semibold mb-4">Quick Actions</h3>
                   <Link
-                    href="/favorites"
+                    href="/"
                     onClick={() => setIsOpen(true)}
                     className="flex items-center gap-2 mb-4 hover:text-green-600 transition-colors"
                   >
@@ -155,9 +165,15 @@ const Navbar = () => {
                     </div>
                     <span className="text-base font-medium">My Cart {totalItems > 0 && `(${totalItems})`}</span>
                   </Link>
-                  <Link href="/sign-in" onClick={() => setIsOpen(true)}>
-                    <Button className="w-full bg-green-600 hover:bg-green-700">Sign in</Button>
-                  </Link>
+                  <Button
+                    className="w-full bg-green-600 hover:bg-green-700"
+                    onClick={() => {
+                      setIsOpen(true) // Close mobile menu
+                      openAuthModal("login") // Open auth modal
+                    }}
+                  >
+                    Sign in
+                  </Button>
                 </div>
               </div>
             </div>
@@ -194,10 +210,30 @@ const Navbar = () => {
                   <span className="text-base font-semibold">Cart</span>
                 </Link>
 
-                {/* Sign In Button */}
-                <Link href="/sign-in">
-                  <Button className="bg-green-600 hover:bg-green-700 px-6">Sign in</Button>
-                </Link>
+                {/* User Menu */}
+                <div className="relative group">
+                  <Button className="bg-green-600 hover:bg-green-700 px-6" onClick={() => openAuthModal("login")}>
+                    Sign in
+                  </Button>
+
+                  {/* Dropdown menu for logged in users */}
+                  {/* This would be conditionally rendered when user is logged in */}
+                  {/* <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 invisible group-hover:visible">
+                    <button
+                      onClick={() => openAuthModal("change-password")}
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      Change Password
+                    </button>
+                    <button
+                      onClick={() => {/* logout logic */
+                  /*}}
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      Logout
+                    </button>
+                  </div> */}
+                </div>
               </div>
             </div>
           </nav>
@@ -206,6 +242,9 @@ const Navbar = () => {
 
       {/* Spacer to prevent content from hiding behind fixed navbar */}
       <div className="h-[90px]"></div>
+
+      {/* Auth Modal */}
+      <AuthModal isOpen={authModalOpen} onClose={() => setAuthModalOpen(false)} initialMode={authMode} />
     </>
   )
 }

@@ -32,7 +32,7 @@ export default function FreshProducts() {
     const fetchProductsAndCategories = async () => {
       try {
         // Fetch products
-        const productResponse = await fetch("https://code-commando.com/api/v1/products")
+        const productResponse = await fetch("https://test-2-tan-chi.vercel.app/api/v1/products")
         const productData = await productResponse.json()
 
         if (productData.success) {
@@ -43,7 +43,7 @@ export default function FreshProducts() {
         }
 
         // Fetch categories
-        const categoryResponse = await fetch("https://code-commando.com/api/v1/category")
+        const categoryResponse = await fetch("https://test-2-tan-chi.vercel.app/api/v1/category")
         const categoryData = await categoryResponse.json()
 
         if (categoryData.success) {
@@ -84,8 +84,10 @@ export default function FreshProducts() {
     <div className="max-w-[1200px] mx-auto p-4 mt-10">
       {/* Render category filter buttons */}
       <div className="mb-6 text-center">
+         <button className="text-primary text-xl text-[#749B3F] bg-primary/10 font-bold py-1 px-2 rounded w-500 font-Rubik">Our Products</button>
+
         <SectionHeading
-          subheading="Our Products"
+          subheading=""
           heading="Our Fresh Products"
           paragraph="We pride ourselves on providing a wide variety of fresh and flavourful, fruits, vegetables and ingredients"
         />

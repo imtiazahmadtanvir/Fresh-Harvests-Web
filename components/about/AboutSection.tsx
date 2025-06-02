@@ -133,9 +133,9 @@ const AboutSectionEnhanced: React.FC = () => {
 
         {/* Enhanced Content Section */}
         <div className="w-full lg:w-[50%] space-y-6 mt-20 md:mt-0">
-          <Badge variant="secondary" className="text-green-600 bg-green-100 hover:bg-green-200 font-medium py-2 px-4">
-            About Us
-          </Badge>
+          
+          <button className="text-primary  text-[#749B3F] bg-primary/10 font-bold py-1 px-2 rounded w-500 font-Rubik">About us</button>
+
 
           <h2 className="font-medium text-3xl md:text-4xl lg:text-5xl text-gray-800 leading-tight">
             About{" "}

@@ -67,7 +67,7 @@ export default function ProductDetailsClient({ productId }: ProductDetailsClient
         setLoading(true)
 
         // Fetch all products first
-        const productResponse = await fetch("https://code-commando.com/api/v1/products")
+        const productResponse = await fetch("https://test-2-tan-chi.vercel.app/api/v1/products")
         const productData = await productResponse.json()
 
         if (productData.success) {
@@ -86,7 +86,7 @@ export default function ProductDetailsClient({ productId }: ProductDetailsClient
         }
 
         // Fetch categories
-        const categoryResponse = await fetch("https://code-commando.com/api/v1/category")
+        const categoryResponse = await fetch("https://test-2-tan-chi.vercel.app/api/v1/category")
         const categoryData = await categoryResponse.json()
 
         if (categoryData.success) {

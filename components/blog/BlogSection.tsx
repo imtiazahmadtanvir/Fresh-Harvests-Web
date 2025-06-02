@@ -41,8 +41,10 @@ const BlogsSection: React.FC = () => {
     <section className="container mx-auto px-6 bg-white py-10">
       <div className="flex justify-center items-center mb-12">
         <div className="text-center">
+          <button className="text-primary text-xl text-[#749B3F] bg-primary/10 font-bold py-1 px-2 rounded w-500 font-Rubik">Our Blog</button>
+
           <SectionHeading
-            subheading="Our Blog"
+            subheading=""
             heading="Fresh Harvest Blog"
             paragraph="Welcome to the Fresh Harvest Blog, your go-to resource for all things related to fresh produce, healthy eating, and culinary inspiration."
           />

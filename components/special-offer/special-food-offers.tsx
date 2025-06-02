@@ -60,7 +60,7 @@ const SpecialOffer = () => {
       }}
     >
       <div className="container mx-auto px-6 py-10 lg:py-[120px]">
-        <button className="text-primary bg-primary/10 font-medium py-1 px-2 rounded">Special Offer</button>
+         <button className="text-primary text-xl text-[#749B3F] bg-primary/10 font-bold py-1 px-2 rounded w-500 font-Rubik">Special Offer</button>
 
         <h2 className="font-medium text-[#212337] text-[60px] lg:text-[80px] leading-none">Seasonal Fruit Bundle</h2>
 
